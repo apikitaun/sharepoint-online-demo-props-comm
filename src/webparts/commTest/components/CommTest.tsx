@@ -33,6 +33,7 @@ export default class CommTest extends React.Component<ICommTestProps, {}> {
             </div>
           </div>
         </div>
+        <div id="spListContainer" />
       </div>
     );
   }
