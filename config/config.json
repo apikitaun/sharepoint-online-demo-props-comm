@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "comm-test-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/commTest/CommTestWebPart.js",
+          "manifest": "./src/webparts/commTest/CommTestWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CommTestWebPartStrings": "lib/webparts/commTest/loc/{locale}.js"
+  }
+}
