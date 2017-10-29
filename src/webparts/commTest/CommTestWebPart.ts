@@ -7,7 +7,8 @@ import {
   PropertyPaneTextField,
   PropertyPaneCheckbox,
   PropertyPaneDropdown,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  IWebPartContext
 } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'CommTestWebPartStrings';
@@ -20,6 +21,7 @@ export interface ICommTestWebPartProps {
   test1: boolean;
   test2: string;
   test3: boolean;
+  context: IWebPartContext;
 }
 
 export default class CommTestWebPart extends BaseClientSideWebPart<ICommTestWebPartProps> {
@@ -32,7 +34,8 @@ export default class CommTestWebPart extends BaseClientSideWebPart<ICommTestWebP
         test : this.properties.test,
         test1 : this.properties.test1,
         test2 : this.properties.test2,
-        test3: this.properties.test3
+        test3: this.properties.test3,
+        context: this.context
       }
     );
 

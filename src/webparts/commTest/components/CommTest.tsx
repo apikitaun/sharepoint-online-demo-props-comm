@@ -8,10 +8,12 @@ import {
   PropertyPaneTextField,
   PropertyPaneCheckbox,
   PropertyPaneDropdown,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  IWebPartContext
 } from '@microsoft/sp-webpart-base';
 
 export default class CommTest extends React.Component<ICommTestProps, {}> {
+
   public render(): React.ReactElement<ICommTestProps> {
     return (
       <div className={styles.commTest}>
@@ -21,14 +23,21 @@ export default class CommTest extends React.Component<ICommTestProps, {}> {
               <span className="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
               <p className="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
               <p className="ms-font-l ms-fontColor-white">{escape(this.props.description)}</p>
-              <p className="ms-font-l ms-fontColor-white">{escape(this.props.test)}</p>
-              <a href="https://aka.ms/spfx" className={styles.button}>
+              <p className="ms-font-l ms-fontColor-white">{escape(this.props.test)}
+              </p>
+              <p>{escape(this.props.context.pageContext.web.title)}</p>
+              <a className={styles.button} onClick={() => this.viewObject(this.props.context.pageContext.web.title) } >
                 <span className={styles.label}>Learn more</span>
               </a>
+
             </div>
           </div>
         </div>
       </div>
     );
+  }
+  public viewObject(text:string) :void
+  {
+    alert(text);
   }
 }
