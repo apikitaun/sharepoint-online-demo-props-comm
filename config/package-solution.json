@@ -3,7 +3,7 @@
   "solution": {
     "name": "comm-client-side-solution",
     "id": "85b2362e-7f32-47f8-9d88-4e3139a2c805",
-    "version": "1.0.0.0"
+    "version": "1.0.0.9"
   },
   "paths": {
     "zippedPackage": "solution/comm.sppkg"
