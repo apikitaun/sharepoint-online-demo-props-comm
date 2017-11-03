@@ -1,4 +1,5 @@
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
+import{ISPList,ISPLists} from '../ISPList';
 // WebPart properties
 export interface IWebPartProps
 {
@@ -14,6 +15,7 @@ export interface IExchangeAttributes
 {
   divListContent : string;
   link:string;
+  lists:ISPList [];
 }
 export interface ICommTestProps {
   context : IWebPartContext;

@@ -29,9 +29,22 @@ export default class CommTest extends React.Component<ICommTestProps, IExchangeA
 constructor (props)
 {
   super(props);
-  this.state = {divListContent:"please wait",
-                link:"/a"};
+  this.state = {
+                divListContent:"please wait",
+                link:"/a",
+                lists: []
+              };
 }
+
+public ListElement(item)
+{
+  return (
+    <div className={`ms-Grid-col ${styles.list}`}>
+      <span className="ms-font-l">{item.Title}</span>
+    </div>
+  );
+}
+
   public render(): React.ReactElement<ICommTestProps> {
     return (
       <div className={styles.commTest}>
@@ -57,11 +70,23 @@ constructor (props)
             </div>
           </div>
         </div>
-        <div id="spListContainer" dangerouslySetInnerHTML={{ __html: this.state.divListContent}}/>
+        <div className={styles.container}>
+            {this.state.lists.map( (item)  =>
+            {
+              return (
+                <div className={`ms-Grid-col ${styles.list}`}>
+                  <span className="ms-font-l">{item.Title}</span>
+                </div>
+              );
+            }
+            )}
+         </div>
       </div>
     );
   }
+  
 
+  
   // pre-render
   public componentWillMount()
   {
@@ -91,28 +116,16 @@ constructor (props)
     // Local environment
     if (Environment.type === EnvironmentType.Local) {
       this._getMockListData().then((response) => {
-        this._renderList(response.value);
+        this.setState({lists:response.value});
       });
     }
     else if (Environment.type == EnvironmentType.SharePoint || 
               Environment.type == EnvironmentType.ClassicSharePoint) {
       this._getListData()
         .then((response) => {
-          this._renderList(response.value);
+          this.setState({lists:response.value});
         });
     } 
-  }
-  private _renderList(items: ISPList[]): void {
-    let html: string = '';
-    items.forEach((item: ISPList) => {
-      html += `
-        <ul class="${styles.list}">
-            <li class="${styles.listItem}">
-                <span class="ms-font-l">${item.Title}</span>
-            </li>
-        </ul>`;
-    });
-    this.setState({divListContent:html});
   }
 
   public viewObject(text:string) :void

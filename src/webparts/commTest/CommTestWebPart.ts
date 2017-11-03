@@ -31,7 +31,7 @@ import {
 export default class CommTestWebPart extends BaseClientSideWebPart<IWebPartProps> {
   
   public render(): void {
-    const element: React.ReactElement<ICommTestProps > = React.createElement(
+    const element: React.ReactElement<ICommTestProps> = React.createElement(
       CommTest,
       {
         context: this.context,
