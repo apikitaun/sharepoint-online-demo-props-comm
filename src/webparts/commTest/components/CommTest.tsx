@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './CommTest.module.scss';
 import { ICommTestProps , IExchangeAttributes } from './ICommTestProps';
+import { SharepointExtComm } from '../SharepointExtComm';
 import { escape } from '@microsoft/sp-lodash-subset';
 import {
   BaseClientSideWebPart,
@@ -90,27 +91,35 @@ public ListElement(item)
   // pre-render
   public componentWillMount()
   {
-    this._renderListAsync();
   }
   // post-render
   public componentDidMount()
   {
+    this._renderListAsync();
   }
 
 
 
-  private _getMockListData(): Promise<ISPLists> {
-    return MockHttpClient.get()
-      .then((data: ISPList[]) => {
-        var listData: ISPLists = { value: data };
-        return listData;
-      }) as Promise<ISPLists>;
+  /*private _getMockListDataString(url : string): Promise<string> {
+    SharepointExtComm.httpClient = this.props.context.httpClient;
+    return SharepointExtComm.get(url)
+      .then((response: string) => {
+        return JSON.;
+      }) as Promise<string>;
+  }*/
+  private _getMockListData() : Promise <ISPLists> {
+    SharepointExtComm.httpClient = this.props.context.httpClient;
+      return SharepointExtComm.get('/_api/web/lists?$filter=Hidden eq false')
+             .then((response: string) => {
+               return JSON.parse(response);
+             }) as Promise <ISPLists>;
+
   }
   private _getListData(): Promise<ISPLists> {
     return this.props.context.spHttpClient.get(this.props.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
       .then((response: SPHttpClientResponse) => {
         return response.json();
-      });
+      }) as Promise<ISPLists>;
   }
   private _renderListAsync(): void {
     // Local environment
