@@ -25,8 +25,10 @@ import {
   Environment,
   EnvironmentType
 } from '@microsoft/sp-core-library';
+import {ResponsiveRow} from './ResponsiveRow';
 
 export default class CommTest extends React.Component<ICommTestProps, IExchangeAttributes> {
+private numElements = 4;
 constructor (props)
 {
   super(props);
@@ -47,6 +49,16 @@ public ListElement(item)
 }
 
   public render(): React.ReactElement<ICommTestProps> {
+    var rows = [];
+    var i = 0;
+    while ( this.state.lists.length > 0 )
+    {
+      var toElement = this.numElements;
+      if ( this.numElements >= this.state.lists.length)
+         toElement = this.state.lists.length;
+      rows[i] = this.state.lists.splice (0 , toElement);
+      i++;
+    }
     return (
       <div className={styles.commTest}>
         <div className={styles.container}>
@@ -72,15 +84,12 @@ public ListElement(item)
           </div>
         </div>
         <div className={styles.container}>
-            {this.state.lists.map( (item)  =>
-            {
-              return (
-                <div className={`ms-Grid-col ${styles.list}`}>
-                  <span className="ms-font-l">{item.Title}</span>
-                </div>
-              );
-            }
-            )}
+           {rows.map((item) =>{
+             return (
+              <ResponsiveRow list={item}/>
+             );
+           })
+          }
          </div>
       </div>
     );
@@ -100,15 +109,9 @@ public ListElement(item)
 
 
 
-  /*private _getMockListDataString(url : string): Promise<string> {
-    SharepointExtComm.httpClient = this.props.context.httpClient;
-    return SharepointExtComm.get(url)
-      .then((response: string) => {
-        return JSON.;
-      }) as Promise<string>;
-  }*/
+
   private _getMockListData() : Promise <ISPLists> {
-    SharepointExtComm.httpClient = this.props.context.httpClient;
+      SharepointExtComm.httpClient = this.props.context.httpClient;
       return SharepointExtComm.get('/_api/web/lists?$filter=Hidden eq false')
              .then((response: string) => {
                return JSON.parse(response);

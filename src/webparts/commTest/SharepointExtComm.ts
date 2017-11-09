@@ -17,7 +17,7 @@ export class SharepointExtComm
         SiteRelativeURL : "sites/rsdevsite",
         RelativeURL:"",
         User:"jgcia@sidertia.com",
-        Password:"xxxxxx"
+        Password:""
     };
     public static httpClient : HttpClient;
     private static intermediateURL = "http://sharepointbridgespfx.azurewebsites.net/api/sharepoint/invokeGetMethod";
