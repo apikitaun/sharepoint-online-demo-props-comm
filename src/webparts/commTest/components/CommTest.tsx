@@ -64,7 +64,7 @@ public ListElement(item)
         <div className={styles.container}>
           <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
             <div className="ms-Grid-col ms-lg10 ms-xl8 ms-xlPush2 ms-lgPush1">
-              <span className="ms-font-xl ms-fontColor-white">Welcome to SharePoint! 1.0.0.9</span>
+              <span className="ms-font-xl ms-fontColor-white">Welcome to SharePoint! 1.0.0.11</span>
               <p className="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
               <p className="ms-font-l ms-fontColor-white">{escape(this.props.props.description)}</p>
               <p className="ms-font-l ms-fontColor-white">{escape(this.props.props.test)}
@@ -107,37 +107,12 @@ public ListElement(item)
     this._renderListAsync();
   }
 
-
-
-
-  private _getMockListData() : Promise <ISPLists> {
-      SharepointExtComm.httpClient = this.props.context.httpClient;
-      return SharepointExtComm.get('/_api/web/lists?$filter=Hidden eq false')
-             .then((response: string) => {
-               return JSON.parse(response);
-             }) as Promise <ISPLists>;
-
-  }
-  private _getListData(): Promise<ISPLists> {
-    return this.props.context.spHttpClient.get(this.props.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
-      .then((response: SPHttpClientResponse) => {
-        return response.json();
-      }) as Promise<ISPLists>;
-  }
   private _renderListAsync(): void {
-    // Local environment
-    if (Environment.type === EnvironmentType.Local) {
-      this._getMockListData().then((response) => {
-        this.setState({lists:response.value});
-      });
-    }
-    else if (Environment.type == EnvironmentType.SharePoint || 
-              Environment.type == EnvironmentType.ClassicSharePoint) {
-      this._getListData()
-        .then((response) => {
-          this.setState({lists:response.value});
-        });
-    } 
+
+    SharepointExtComm.get<ISPLists>(this.props.context,'/_api/web/lists?$filter=Hidden eq false')
+       .then((response : ISPLists) =>{
+         this.setState({lists:response.value});
+       });
   }
 
   public viewObject(text:string) :void
