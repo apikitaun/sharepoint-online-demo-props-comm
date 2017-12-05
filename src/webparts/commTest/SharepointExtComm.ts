@@ -1,4 +1,3 @@
-import { ISPList } from './ISPList';
 import {
     SPHttpClient,
     HttpClient,
@@ -17,35 +16,27 @@ export class SharepointExtComm
 {
     private static commProperties =
     {
-        ServerURL : "https://sidertiasolutions.sharepoint.com",
-        SiteRelativeURL : "sites/rsdevsite",
+        ServerURL : "WYyd07G3m3VdDlFbZZywAU6oC7GfBqMuEP8+77p16PDrhOrwskUcO5P5nbd5eQRU",
+        SiteRelativeURL : "pezcRjESW6O1CsXGK+aSdQ==",
         RelativeURL:"",
-        User:"jgcia@sidertia.com",
+        User:"",
         Password:""
     };
 
+    
+    //private static intermediateURL = "http://192.168.89.103/SharepointBridge/api/Sharepoint/InvokeGetMethod";
     private static intermediateURL = "http://sharepointbridgespfx.azurewebsites.net/api/sharepoint/invokeGetMethod";
     private static getRelative (context : IWebPartContext , relativeURL : string) : Promise<HttpClientResponse>
     {
         this.commProperties.RelativeURL = relativeURL;
-        const opt: IHttpClientOptions = {
-            headers: {'Content-Type': 'application/json',
-                      'Accept': 'application/json'},
-            body: JSON.stringify(this.commProperties),
-
-        };
         return context.httpClient.post(this.intermediateURL, HttpClient.configurations.v1 , {
-            headers: {
-        },
+            headers: []
+        ,
             method: "post",
             body: JSON.stringify(this.commProperties)
             }
         );
     }
-
-    /*.then((response2 : string )=>{
-                 return JSON.parse(response2); 
-          })*/
     public static get<T>(context : IWebPartContext , url : string): Promise<T> {
         if (Environment.type == EnvironmentType.Local)
         {
